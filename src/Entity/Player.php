@@ -26,7 +26,7 @@ class Player implements UserInterface, PlayerInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    public $roles = [];
 
     /**
      * @var string The hashed password
@@ -46,19 +46,18 @@ class Player implements UserInterface, PlayerInterface
 
     private function probabilityAgainst(PlayerInterface $player): float 
     {
-        return 1/1+(10 ** ($player->getRatio() - $this->getRatio()/400));
+        return 1/(1+(10 ** (($player->getRatio() - $this->getRatio())/400)));
     }
 
     public function updateRatioAgainst(PlayerInterface $player, $result): void
     {
-        $this->ratio += 32 * ($result - $this-> probabilityAgainst($player));
+        $this->ratio += 32 * ($result - $this->probabilityAgainst($player));
     }
 
     public function getRatio(): ?float 
     {
         return $this->ratio;
     }
-
 
     /**
      * A visual identifier that represents this user.
@@ -85,7 +84,10 @@ class Player implements UserInterface, PlayerInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
-        $roles[] = 'ROLE_ADMIN';
+
+        if ($this->username === 'admin'){
+            $roles[] = 'ROLE_ADMIN';
+        }
 
         return array_unique($roles);
     }

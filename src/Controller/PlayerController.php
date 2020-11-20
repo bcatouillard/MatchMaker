@@ -14,7 +14,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * @Route("/player")
- * @Security("is_granted('ROLE_ADMIN')")
  */
 class PlayerController extends AbstractController
 {
@@ -27,7 +26,7 @@ class PlayerController extends AbstractController
             'players' => $playerRepository->findAll(),
         ]);
     }
-
+    
     /**
      * @Route("/new", name="player_new", methods={"GET","POST"})
      */
@@ -43,7 +42,7 @@ class PlayerController extends AbstractController
             $entityManager->persist($player);
             $entityManager->flush();
 
-            return $this->redirectToRoute('player_index');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('player/new.html.twig', [

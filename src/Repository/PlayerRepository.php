@@ -34,6 +34,18 @@ class PlayerRepository extends ServiceEntityRepository implements PasswordUpgrad
         $user->setPassword($newEncodedPassword);
         $this->_em->persist($user);
         $this->_em->flush();
+
+        
+    }
+    
+    public function fetchBestPlayers()
+    {
+        return $this->createQueryBuilder('player')
+                ->orderBy('player.ratio', 'DESC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult()
+        ;
     }
 
     // /**
