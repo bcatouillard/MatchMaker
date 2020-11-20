@@ -30,7 +30,7 @@ class MatchMaker
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $status;
+    private $status = self::STATUS_PENDING;
 
     /**
      * @ORM\Column(type="date", nullable=true)
