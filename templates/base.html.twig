@@ -1,12 +1,70 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}
+				Enigma
+			{% endblock %}
+		</title>
+		{% block stylesheets %}
+			<link rel="stylesheet" href="/css/bulma.min.css"/>
+			<link rel="stylesheet" href="/css/style.css"/>
+		{% endblock %}
+	</head>
+	<body>
+		<nav class="navbar" role="navigation" aria-label="main navigation">
+
+			<a class="navbar-burger burger" role="button" aria-label="menu" aria-expanded="false" data-target="navMenu">
+				<span aria-hidden="true"></span>
+				<span aria-hidden="true"></span>
+				<span aria-hidden="true"></span>
+			</a>
+
+			<div id="navMenu" class="navbar-menu">
+				<div class="navbar-start">
+					<a class="navbar-item" href="/">
+						Accueil
+					</a>
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<p class="navbar-item">
+							Mon classement
+						</p>
+					{% endif %}
+					{% if is_granted('ROLE_ADMIN')%}
+						<a class="navbar-item" href="/match/maker">
+                            Modifier les matchs
+                        </a>
+					{% elseif is_granted('ROLE_USER') %}
+						<a class="navbar-item" href="/match/maker">
+                            Voir/Créer vos matchs
+                        </a>
+					{% endif %}
+				</div>
+
+				<div class="navbar-end">
+					<div class="navbar-item">
+						<div class="buttons">
+							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								<a class="button is-danger" href="/logout">
+									Se déconnecter
+								</a>
+							{% else %}
+								<a class="button is-primary" href="/player/new">
+									<strong>S'inscrire</strong>
+								</a>
+								<a class="button is-light" href="/login">
+									Se connecter
+								</a>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		{% block body %}{% endblock %}
+		{% block javascripts %}{% endblock %}
+		<script src="/js/navbar.js"></script>
+	</body>
 </html>

@@ -1,50 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}MatchMaker{% endblock %}
+{% block title %}MatchMaker
+{% endblock %}
 
 {% block body %}
-    <h1>MatchMaker</h1>
+	<div class="container">
+        <h1 class="title">{{match_maker.playerA.username}} contre {{match_maker.playerB.username}}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ match_maker.id }}</td>
-            </tr>
-            <tr>
-                <th>Player1</th>
-                <td>{{ match_maker.player1 }}</td>
-            </tr>
-            <tr>
-                <th>Player2</th>
-                <td>{{ match_maker.player2 }}</td>
-            </tr>
-            <tr>
-                <th>Winner</th>
-                <td>{{ match_maker.winner }}</td>
-            </tr>
-            <tr>
-                <th>ScorePlayer1</th>
-                <td>{{ match_maker.scorePlayer1 }}</td>
-            </tr>
-            <tr>
-                <th>ScorePlayer2</th>
-                <td>{{ match_maker.scorePlayer2 }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ match_maker.status }}</td>
-            </tr>
-            <tr>
-                <th>EncounterDate</th>
-                <td>{{ match_maker.encounterDate ? match_maker.encounterDate|date('Y-m-d') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Id</th>
+					<td>{{ match_maker.id }}</td>
+				</tr>
+				<tr>
+					<th>playerA</th>
+					<td>{{ match_maker.playerA.username }}</td>
+				</tr>
+				<tr>
+					<th>playerB</th>
+					<td>{{ match_maker.playerB.username }}</td>
+				</tr>
+				<tr>
+					<th>Winner</th>
+					<td>{{ match_maker.winner }}</td>
+				</tr>
+				<tr>
+					<th>scorePlayerA</th>
+					<td>{{ match_maker.scorePlayerA }}</td>
+				</tr>
+				<tr>
+					<th>scorePlayerB</th>
+					<td>{{ match_maker.scorePlayerB }}</td>
+				</tr>
+				<tr>
+					<th>Status</th>
+					<td>{{ match_maker.status }}</td>
+				</tr>
+				<tr>
+					<th>EncounterDate</th>
+					<td>{{ match_maker.encounterDate ? match_maker.encounterDate|date('Y-m-d') : '' }}</td>
+				</tr>
+			</tbody>
+		</table>
 
-    <a href="{{ path('match_maker_index') }}">back to list</a>
+		<div class="button__container">
+			<a href="{{ path('match_maker_index') }}">Retour à la liste</a>
+            <a class="right_float"href="{{path('match_maker_edit',{'id':match_maker.id})}}">Modifier ce match</a>
+		</div>
+		{{ include('match_maker/_delete_form.html.twig') }}
 
-    <a href="{{ path('match_maker_edit', {'id': match_maker.id}) }}">edit</a>
-
-    {{ include('match_maker/_delete_form.html.twig') }}
+	</div>
 {% endblock %}

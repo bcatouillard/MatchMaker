@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Player{% endblock %}
+{% block title %} {{ parent() }} - S'inscrire{% endblock %}
 
 {% block body %}
-    <h1>Create new Player</h1>
 
-    {{ include('player/_form.html.twig') }}
+    <h1 class="title">Inscrivez vous</h1>
 
-    <a href="{{ path('player_index') }}">back to list</a>
+    {{ include('player/_form.html.twig', {'button_label': "S'inscrire"}) }}
+
 {% endblock %}

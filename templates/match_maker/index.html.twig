@@ -1,47 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}MatchMaker index{% endblock %}
-
+{% block title %}
+	{{ parent()}}
+	- Matchs
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link rel="stylesheet" href="/css/all.min.css"/>
+{% endblock %}
 {% block body %}
-    <h1>MatchMaker index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Player1</th>
-                <th>Player2</th>
-                <th>Winner</th>
-                <th>ScorePlayer1</th>
-                <th>ScorePlayer2</th>
-                <th>Status</th>
-                <th>EncounterDate</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for match_maker in match_makers %}
-            <tr>
-                <td>{{ match_maker.id }}</td>
-                <td>{{ match_maker.player1 }}</td>
-                <td>{{ match_maker.player2 }}</td>
-                <td>{{ match_maker.winner }}</td>
-                <td>{{ match_maker.scorePlayer1 }}</td>
-                <td>{{ match_maker.scorePlayer2 }}</td>
-                <td>{{ match_maker.status }}</td>
-                <td>{{ match_maker.encounterDate ? match_maker.encounterDate|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('match_maker_show', {'id': match_maker.id}) }}">show</a>
-                    <a href="{{ path('match_maker_edit', {'id': match_maker.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<div class="container">
+		<h1 class="title">Gestion des matchs</h1>
 
-    <a href="{{ path('match_maker_new') }}">Create new</a>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Joueur A</th>
+					<th>Joueur B</th>
+					<th>Gagnant</th>
+					<th>Score Joueur A</th>
+					<th>Score Joueur B</th>
+					<th>Statut</th>
+					<th>Date</th>
+					{% if is_granted('ROLE_ADMIN') %}
+						<th>actions</th>
+					{% endif %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for match_maker in match_makers %}
+					<tr>
+						<td>{{ match_maker.id }}</td>
+						<td>{{ match_maker.playerA.username }}</td>
+						<td>{{ match_maker.playerB.username }}</td>
+						<td>{{ match_maker.winner }}</td>
+						<td>{{ match_maker.scorePlayerA }}</td>
+						<td>{{ match_maker.scorePlayerB }}</td>
+						<td>{{ match_maker.status }}</td>
+						<td>{{ match_maker.encounterDate ? match_maker.encounterDate|date('Y-m-d') : '' }}</td>
+						{% if is_granted('ROLE_ADMIN') %}
+							<td>
+								<a href="{{ path('match_maker_show', {'id': match_maker.id}) }}"><i class="fas fa-eye"></i></a>
+								<a href="{{ path('match_maker_edit', {'id': match_maker.id}) }}"><i class="fas fa-edit"></i></a>
+							</td>
+						{% endif %}
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="9">Pas de matchs</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<a class="button is-success" href="{{ path('match_maker_new') }}">Créer un nouveau match</a>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script async src="/js/all.min.js"></script>
 {% endblock %}
